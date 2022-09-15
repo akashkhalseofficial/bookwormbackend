@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "i7Pch5nwLAQqRp1hNNJPkTdVeS209m8gaF9X4fc3aP4=",
+  "Source": "bookwormbackend",
+  "BasePath": "_content/bookwormbackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
