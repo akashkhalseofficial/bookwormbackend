@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace bookwormbackend.Data.Migrations
 {
-    public partial class _2 : Migration
+    public partial class _7 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -106,7 +106,7 @@ namespace bookwormbackend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    bid = table.Column<int>(type: "int", nullable: false),
+                    bids = table.Column<int>(type: "int", nullable: false),
                     userid = table.Column<int>(type: "int", nullable: false),
                     booksRented = table.Column<int>(type: "int", nullable: true),
                     booksPurchased = table.Column<int>(type: "int", nullable: true),

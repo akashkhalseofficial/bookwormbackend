@@ -317,7 +317,7 @@ namespace bookwormbackend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("bid")
+                    b.Property<int>("bids")
                         .HasColumnType("int");
 
                     b.Property<int?>("booksPurchased")

@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public int bid { get; set; }
+        public int bids { get; set; }
 
         public int userid { get; set; }
 

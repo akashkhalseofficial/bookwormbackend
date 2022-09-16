@@ -12,8 +12,8 @@ using bookwormbackend.Data;
 namespace bookwormbackend.Data.Migrations
 {
     [DbContext(typeof(BookwormDbContext))]
-    [Migration("20220915163817_2")]
-    partial class _2
+    [Migration("20220916055845_7")]
+    partial class _7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -319,7 +319,7 @@ namespace bookwormbackend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("bid")
+                    b.Property<int>("bids")
                         .HasColumnType("int");
 
                     b.Property<int?>("booksPurchased")
