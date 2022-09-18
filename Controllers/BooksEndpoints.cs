@@ -4,6 +4,7 @@ using bookwormbackend.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Any;
 using Microsoft.Data.SqlClient;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace bookwormbackend.Controllers;
 
@@ -33,6 +34,7 @@ public static class BooksEndpoints
         {
             var foundModel = await db.Books.FindAsync(Id);
          
+            
 
             if (foundModel is null)
             {
@@ -41,21 +43,16 @@ public static class BooksEndpoints
             }
             //update model properties here
 
-            /*SqlConnection conn = new SqlConnection("Data Source=AKASH-KHALSE\\MSSQLSERVER01;Initial Catalog=book_management;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-
-            if (conn.State != System.Data.ConnectionState.Open)
-                conn.Open();
-             SqlCommand command = new SqlCommand("update Books set author=@author where Id=@id", conn);
-            command.Parameters.Add(new SqlParameter("id", Id));
-            command.Parameters.Add(new SqlParameter("author", books.Author));
-            SqlDataReader reader = command.ExecuteReader();*/
-
-
+            foundModel.Name = books.Name;
+            foundModel.Author = books.Author;
+            foundModel.Language = books.Language;
+            foundModel.image = books.image;
+            foundModel.Pages = books.Pages;
+            foundModel.Category = books.Category;
+            foundModel.Price = books.Price;
+            foundModel.stock = books.stock;
 
             await db.SaveChangesAsync();
-
-           /* db.Books.Add(newModel);*/
-
             return Results.NoContent();
         })
        .WithName("UpdateBooks")

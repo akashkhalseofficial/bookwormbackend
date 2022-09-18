@@ -13,6 +13,8 @@ namespace bookwormbackend.Models
 
         public string? image { get; set; }
 
+        public string? ordered { get; set; }
+
     }
 
 }

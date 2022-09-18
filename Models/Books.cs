@@ -16,6 +16,8 @@ namespace bookwormbackend.Models
             public DateTime Created { get; set; }
 
             public virtual BooksStock? BooksStock { get; set; }
+
+            public virtual Files? Files { get; set; }
     }
 
         public enum CategoryType

@@ -12,8 +12,8 @@ using bookwormbackend.Data;
 namespace bookwormbackend.Data.Migrations
 {
     [DbContext(typeof(BookwormDbContext))]
-    [Migration("20220916055845_7")]
-    partial class _7
+    [Migration("20220918115033_createdb")]
+    partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,9 @@ namespace bookwormbackend.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FilesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,6 +73,8 @@ namespace bookwormbackend.Data.Migrations
 
                     b.HasIndex("BooksStockId");
 
+                    b.HasIndex("FilesId");
+
                     b.ToTable("Books");
                 });
 
@@ -85,6 +90,9 @@ namespace bookwormbackend.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ordered")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userid")
@@ -107,6 +115,9 @@ namespace bookwormbackend.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ordered")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userid")
@@ -140,6 +151,38 @@ namespace bookwormbackend.Data.Migrations
                     b.ToTable("BooksStock");
                 });
 
+            modelBuilder.Entity("bookwormbackend.Models.Files", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("bid")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("bookwormbackend.Models.Invoices", b =>
                 {
                     b.Property<int>("Id")
@@ -154,6 +197,9 @@ namespace bookwormbackend.Data.Migrations
                     b.Property<string>("image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ordered")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("purchaseType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -161,8 +207,20 @@ namespace bookwormbackend.Data.Migrations
                     b.Property<int>("totalordercost")
                         .HasColumnType("int");
 
+                    b.Property<string>("useraddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("useremail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("userid")
                         .HasColumnType("int");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -181,6 +239,9 @@ namespace bookwormbackend.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ordered")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("purchaseType")
@@ -219,6 +280,9 @@ namespace bookwormbackend.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ordered")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("quantity")
@@ -319,6 +383,12 @@ namespace bookwormbackend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Ordered")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("bids")
                         .HasColumnType("int");
 
@@ -329,6 +399,10 @@ namespace bookwormbackend.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rentType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userid")
@@ -345,7 +419,13 @@ namespace bookwormbackend.Data.Migrations
                         .WithMany()
                         .HasForeignKey("BooksStockId");
 
+                    b.HasOne("bookwormbackend.Models.Files", "Files")
+                        .WithMany()
+                        .HasForeignKey("FilesId");
+
                     b.Navigation("BooksStock");
+
+                    b.Navigation("Files");
                 });
 
             modelBuilder.Entity("bookwormbackend.Models.Orders", b =>

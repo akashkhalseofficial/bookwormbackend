@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using bookwormbackend.Data;
 using bookwormbackend.Models;
+using Microsoft.AspNetCore.Http;
+
 namespace bookwormbackend.Controllers;
 
 public static class UserShelfEndpoints
@@ -77,7 +79,15 @@ public static class UserShelfEndpoints
             {
                 if (usList[i].userid == userid)
                 {
-                    us.Add(usList[i]);
+                    DateTime myDate = DateTime.Parse(usList[i].Ordered).AddDays(7);
+                    if (usList[i].rentType == "rent" && myDate > DateTime.Now)
+                    {
+                      us.Add(usList[i]);
+                    } 
+                    if(usList[i].rentType == "purchase")
+                    {
+                      us.Add(usList[i]);
+                    }
                 }
             }
             return us.Count > 0

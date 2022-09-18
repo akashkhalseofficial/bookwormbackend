@@ -15,6 +15,8 @@ namespace bookwormbackend.Models
 
         public string? image { get; set; }
 
+        public string? ordered { get; set; }
+
         public virtual OrderDetails? OrderDetails { get; set; }
 
         public virtual Invoices? Invoices { get; set; }

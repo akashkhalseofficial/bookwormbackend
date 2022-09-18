@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace bookwormbackend.Data.Migrations
 {
-    public partial class _7 : Migration
+    public partial class createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace bookwormbackend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     bid = table.Column<int>(type: "int", nullable: false),
-                    userid = table.Column<int>(type: "int", nullable: false)
+                    userid = table.Column<int>(type: "int", nullable: false),
+                    ordered = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,7 +33,8 @@ namespace bookwormbackend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     bid = table.Column<int>(type: "int", nullable: false),
                     userid = table.Column<int>(type: "int", nullable: false),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ordered = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,6 +57,23 @@ namespace bookwormbackend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    bid = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -64,7 +83,11 @@ namespace bookwormbackend.Data.Migrations
                     userid = table.Column<int>(type: "int", nullable: false),
                     totalordercost = table.Column<int>(type: "int", nullable: false),
                     purchaseType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    useremail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    useraddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ordered = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,7 +102,8 @@ namespace bookwormbackend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     bid = table.Column<int>(type: "int", nullable: false),
                     purchaseType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ordered = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,9 +132,12 @@ namespace bookwormbackend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     bids = table.Column<int>(type: "int", nullable: false),
                     userid = table.Column<int>(type: "int", nullable: false),
+                    rentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     booksRented = table.Column<int>(type: "int", nullable: true),
                     booksPurchased = table.Column<int>(type: "int", nullable: true),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ordered = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,7 +159,8 @@ namespace bookwormbackend.Data.Migrations
                     stock = table.Column<int>(type: "int", nullable: false),
                     image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BooksStockId = table.Column<int>(type: "int", nullable: true)
+                    BooksStockId = table.Column<int>(type: "int", nullable: true),
+                    FilesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,6 +169,11 @@ namespace bookwormbackend.Data.Migrations
                         name: "FK_Books_BooksStock_BooksStockId",
                         column: x => x.BooksStockId,
                         principalTable: "BooksStock",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Books_Files_FilesId",
+                        column: x => x.FilesId,
+                        principalTable: "Files",
                         principalColumn: "Id");
                 });
 
@@ -155,6 +188,7 @@ namespace bookwormbackend.Data.Migrations
                     bid = table.Column<int>(type: "int", nullable: false),
                     userid = table.Column<int>(type: "int", nullable: false),
                     image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ordered = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderDetailsId = table.Column<int>(type: "int", nullable: true),
                     InvoicesId = table.Column<int>(type: "int", nullable: true),
                     UserShelfId = table.Column<int>(type: "int", nullable: true),
@@ -227,6 +261,11 @@ namespace bookwormbackend.Data.Migrations
                 column: "BooksStockId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_FilesId",
+                table: "Books",
+                column: "FilesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_BooksPurchasedId",
                 table: "Orders",
                 column: "BooksPurchasedId");
@@ -275,6 +314,9 @@ namespace bookwormbackend.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "BooksStock");
+
+            migrationBuilder.DropTable(
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "BooksPurchased");
